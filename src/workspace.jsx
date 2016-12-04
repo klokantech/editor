@@ -2,6 +2,7 @@ import React from 'react'
 import { LayerList } from './layers/list.jsx'
 import { SourceList } from './sources/list.jsx'
 import { SettingsEditor } from './settings.jsx'
+import { CodeEditor } from './codemode.jsx'
 import { About } from './about.jsx'
 import { colors, fullHeight } from './theme.js'
 
@@ -11,7 +12,7 @@ export class WorkspaceDrawer extends React.Component {
   static propTypes = {
     mapStyle: React.PropTypes.object.isRequired,
     onStyleChanged: React.PropTypes.func.isRequired,
-    workContext: React.PropTypes.oneOf(['layers', 'settings', 'sources']).isRequired,
+    workContext: React.PropTypes.oneOf(['layers', 'settings', 'sources', 'code']).isRequired,
     accessToken: React.PropTypes.string,
     onAccessTokenChanged: React.PropTypes.func,
     onReset: React.PropTypes.func,
@@ -34,6 +35,13 @@ export class WorkspaceDrawer extends React.Component {
       workspaceContent = <SourceList
         onSourcesChanged={this.onSourcesChanged.bind(this)}
         sources={this.props.mapStyle.get('sources')}
+      />
+    }
+
+    if(this.props.workContext === "code") {
+      workspaceContent = <CodeEditor
+        mapStyle={this.props.mapStyle}
+        onStyleChanged={this.props.onStyleChanged}
       />
     }
 
@@ -65,8 +73,8 @@ export class WorkspaceDrawer extends React.Component {
       zIndex: 100,
       width: 300,
       overflow: "hidden",
-      backgroundColor: colors.gray}
-    }>
+      backgroundColor: colors.gray
+    }}>
       {workspaceContent}
     </div>
   }

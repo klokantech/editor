@@ -19,10 +19,12 @@ import MdLayers from 'react-icons/lib/md/layers'
 import MdSave from 'react-icons/lib/md/save'
 import MdStyle from 'react-icons/lib/md/style'
 import MdMap from 'react-icons/lib/md/map'
+import MdModeEdit from 'react-icons/lib/md/mode-edit'
 import MdInsertEmoticon from 'react-icons/lib/md/insert-emoticon'
 import MdFontDownload from 'react-icons/lib/md/font-download'
 import MdHelpOutline from 'react-icons/lib/md/help-outline'
 import MdFindInPage from 'react-icons/lib/md/find-in-page'
+import MdCode from 'react-icons/lib/md/code'
 
 import style from './style.js'
 import { fullHeight } from './theme.js'
@@ -48,6 +50,8 @@ export class Toolbar extends React.Component {
     onOpenSources: React.PropTypes.func,
     // Open layers drawer
     onOpenLayers: React.PropTypes.func,
+    // Switch to JSON mode
+    onJSONMode: React.PropTypes.func,
     // Whether a style is available for download or saving
     // A style with no layers should not be available
     styleAvailable: React.PropTypes.bool,
@@ -138,6 +142,12 @@ export class Toolbar extends React.Component {
         <Button big={true} onClick={this.props.onOpenSettings}>
           <MdFindInPage />
           Inspect
+        </Button>
+      </InlineBlock>
+      <InlineBlock>
+        <Button big={true} onClick={this.props.onJSONMode}>
+          <MdModeEdit />
+          JSON Mode
         </Button>
       </InlineBlock>
       <InlineBlock>

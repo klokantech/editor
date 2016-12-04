@@ -93,6 +93,10 @@ export default class App extends React.Component {
 		this.setState({ workContext: "sources", })
 	}
 
+	onJSONMode() {
+		this.setState({ workContext: "code", })
+	}
+
 	onAccessTokenChanged(newToken) {
 		this.settingsStore.accessToken = newToken
 		this.setState({ accessToken: newToken })
@@ -109,6 +113,7 @@ export default class App extends React.Component {
 					onOpenAbout={this.onOpenAbout.bind(this)}
 					onOpenLayers={this.onOpenLayers.bind(this)}
 					onOpenSources={this.onOpenSources.bind(this)}
+					onJSONMode={this.onJSONMode.bind(this)}
 			/>
 			<WorkspaceDrawer
 				onStyleChanged={this.onStyleChanged.bind(this)}
