@@ -22,6 +22,7 @@ import SettingsModal from './modals/SettingsModal'
 import ExportModal from './modals/ExportModal'
 import SourcesModal from './modals/SourcesModal'
 import OpenModal from './modals/OpenModal'
+import { initialStyleUrl } from '../libs/urlopen'
 
 import style from '../libs/style'
 
@@ -89,7 +90,7 @@ export default class Toolbar extends React.Component {
       isOpen: {
         settings: false,
         sources: false,
-        open: false,
+        open: !initialStyleUrl(),
         add: false,
         export: false,
       }
