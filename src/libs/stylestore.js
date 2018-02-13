@@ -13,6 +13,10 @@ const storageKeys = {
 
 const defaultStyleUrl = publicSources[0].url
 
+const getInfo = function (styleId) {
+  return publicSources.find(ps => ps.id === styleId)
+}
+
 // Fetch a default style via URL and return it or a fallback style via callback
 export function loadDefaultStyle(cb) {
   loadStyleUrl(defaultStyleUrl, cb)
@@ -83,10 +87,34 @@ export class StyleStore {
     loadDefaultStyle(cb)
   }
 
+  // Find the last edited style
+  loadById(styleId, cb) {
+    if(this.mapStyles.includes(styleId)) {
+      const styleItem = window.localStorage.getItem(styleKey(styleId))
+      if(styleItem) {
+        return cb(JSON.parse(styleItem));
+      }
+    }
+    const styleInfo = getInfo(styleId);
+    if (styleInfo) {
+      loadStyleUrl(styleInfo.url, cb)
+    } else {
+      loadDefaultStyle(cb)
+    }
+  }
+
+  // Find the last edited style
+  knowsId(styleId) {
+    return !!getInfo(styleId) || this.mapStyles.includes(styleId);
+  }
+
   // Save current style replacing previous version
   save(mapStyle) {
     mapStyle = style.ensureStyleValidity(mapStyle)
     const key = styleKey(mapStyle.id)
+    if(!this.mapStyles.includes(mapStyle.id)) {
+      this.mapStyles.push(mapStyle.id)
+    }
     window.localStorage.setItem(key, JSON.stringify(mapStyle))
     window.localStorage.setItem(storageKeys.latest, mapStyle.id)
     return mapStyle

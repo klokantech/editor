@@ -12,7 +12,7 @@ import MessagePanel from './MessagePanel'
 import { downloadGlyphsMetadata, downloadSpriteMetadata } from '../libs/metadata'
 import styleSpec from '@mapbox/mapbox-gl-style-spec/style-spec'
 import style from '../libs/style.js'
-import { initialStyleUrl, loadStyleUrl } from '../libs/urlopen'
+import { initialStyle, initialStyleUrl, loadStyleUrl } from '../libs/urlopen'
 import { undoMessages, redoMessages } from '../libs/diffmessage'
 import { loadDefaultStyle, StyleStore } from '../libs/stylestore'
 import { ApiStyleStore } from '../libs/apistore'
@@ -20,6 +20,7 @@ import { RevisionStore } from '../libs/revisions'
 import LayerWatcher from '../libs/layerwatcher'
 import tokens from '../config/tokens.json'
 import isEqual from 'lodash.isequal'
+import * as urlState from '../libs/urlstate.js'
 
 import MapboxGl from 'mapbox-gl'
 import mapboxUtil from 'mapbox-gl/src/util/mapbox'
@@ -56,9 +57,23 @@ export default class App extends React.Component {
           console.log('Falling back to local storage for storing styles')
           this.styleStore = new StyleStore()
         }
-        this.styleStore.latestStyle(mapStyle => this.onStyleChanged(mapStyle))
+        const styleId = initialStyle()
+        if(styleId && this.styleStore.knowsId(styleId)) {
+          this.styleStore.loadById(
+            styleId,
+            mapStyle => this.onStyleChanged(mapStyle)
+          );
+        } else {
+          this.styleStore.latestStyle(
+            mapStyle => this.onStyleChanged(mapStyle)
+          );
+        }
       })
     }
+
+    window.addEventListener('popstate', this.onPopState.bind(this));
+
+
 
     this.state = {
       errors: [],
@@ -110,6 +125,27 @@ export default class App extends React.Component {
     })
   }
 
+  onPopState(evt) {
+    const styleId = evt.state && evt.state.styleId;
+    console.log('onPopState', styleId)
+    if(styleId && this.styleStore.knowsId(styleId)) {
+      this.styleStore.loadById(
+        styleId,
+        mapStyle => this.onStyleChanged(mapStyle)
+      )
+    } else {
+      urlState.replaceState(this.state.mapStyle);
+    }
+  };
+
+  replaceUrlState() {
+    // we need to update it again
+    // because state is replaced by mapbox gl js
+    // on map load and moveend
+    // https://github.com/mapbox/mapbox-gl-js/blob/cd4a19b214c4eefec71afd70cfb2e980656c1533/src/ui/hash.js#L94
+    urlState.replaceState(this.state.mapStyle);
+  };
+
   onStyleChanged(newStyle, save=true) {
     if(newStyle.glyphs !== this.state.mapStyle.glyphs) {
       this.updateFonts(newStyle.glyphs)
@@ -122,6 +158,7 @@ export default class App extends React.Component {
     if(errors.length === 0) {
       this.revisionStore.addRevision(newStyle)
       if(save) this.saveStyle(newStyle)
+      urlState.onStyleChange(this.state.mapStyle, newStyle);
       this.setState({
         mapStyle: newStyle,
         errors: [],
@@ -260,6 +297,8 @@ export default class App extends React.Component {
       return  <MapboxGlMap {...mapProps}
         inspectModeEnabled={this.state.inspectModeEnabled}
         highlightedLayer={this.state.mapStyle.layers[this.state.selectedLayerIndex]}
+        onMapLoad={this.replaceUrlState.bind(this)}
+        onMoveEnd={this.replaceUrlState.bind(this)}
         onLayerSelect={this.onLayerSelect.bind(this)} />
     }
   }

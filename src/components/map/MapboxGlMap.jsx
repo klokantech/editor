@@ -54,6 +54,8 @@ function buildInspectStyle(originalMapStyle, coloredLayers, highlightedLayer) {
 export default class MapboxGlMap extends React.Component {
   static propTypes = {
     onDataChange: PropTypes.func,
+    onMapLoad: PropTypes.func,
+    onMoveEnd: PropTypes.func,
     onLayerSelect: PropTypes.func.isRequired,
     mapStyle: PropTypes.object.isRequired,
     inspectModeEnabled: PropTypes.bool.isRequired,
@@ -137,6 +139,8 @@ export default class MapboxGlMap extends React.Component {
     })
     map.addControl(inspect)
 
+    map.on("load", this.props.onMapLoad)
+    map.on("moveend", this.props.onMoveEnd)
     map.on("style.load", () => {
       this.setState({ map, inspect });
     })
