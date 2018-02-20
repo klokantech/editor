@@ -6,7 +6,6 @@ import classnames from 'classnames'
 import MdFileDownload from 'react-icons/lib/md/file-download'
 import MdFileUpload from 'react-icons/lib/md/file-upload'
 import OpenIcon from 'react-icons/lib/md/open-in-browser'
-import SettingsIcon from 'react-icons/lib/md/settings'
 import MdInfo from 'react-icons/lib/md/info'
 import SourcesIcon from 'react-icons/lib/md/layers'
 import MdSave from 'react-icons/lib/md/save'
@@ -18,7 +17,6 @@ import HelpIcon from 'react-icons/lib/md/help-outline'
 import InspectionIcon from 'react-icons/lib/md/find-in-page'
 
 import logoImage from 'maputnik-design/logos/logo-color.svg'
-import SettingsModal from './modals/SettingsModal'
 import ExportModal from './modals/ExportModal'
 import SourcesModal from './modals/SourcesModal'
 import OpenModal from './modals/OpenModal'
@@ -88,7 +86,6 @@ export default class Toolbar extends React.Component {
     super(props)
     this.state = {
       isOpen: {
-        settings: false,
         sources: false,
         open: !initialStyle(),
         add: false,
@@ -108,12 +105,6 @@ export default class Toolbar extends React.Component {
 
   render() {
     return <div className='maputnik-toolbar'>
-      <SettingsModal
-        mapStyle={this.props.mapStyle}
-        onStyleChanged={this.props.onStyleChanged}
-        isOpen={this.state.isOpen.settings}
-        onOpenToggle={this.toggleModal.bind(this, 'settings')}
-      />
       <ExportModal
         mapStyle={this.props.mapStyle}
         onStyleChanged={this.props.onStyleChanged}
@@ -151,10 +142,6 @@ export default class Toolbar extends React.Component {
           <ToolbarAction onClick={this.toggleModal.bind(this, 'sources')}>
             <SourcesIcon />
             <IconText>Sources</IconText>
-          </ToolbarAction>
-          <ToolbarAction onClick={this.toggleModal.bind(this, 'settings')}>
-            <SettingsIcon />
-            <IconText>Style Settings</IconText>
           </ToolbarAction>
           <ToolbarAction onClick={this.props.onInspectModeToggle}>
             <InspectionIcon />
