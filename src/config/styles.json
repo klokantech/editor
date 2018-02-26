@@ -28,11 +28,5 @@
     "title": "OSM Liberty",
     "url": "https://rawgit.com/lukasmartinelli/osm-liberty/gh-pages/style.json",
     "thumbnail": "https://cdn.rawgit.com/lukasmartinelli/osm-liberty/gh-pages/thumbnail.png"
-  },
-  {
-    "id": "empty-style",
-    "title": "Empty Style",
-    "url": "https://rawgit.com/maputnik/editor/master/src/config/empty-style.json",
-    "thumbnail": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAECAQAAAAHDYbIAAAAEUlEQVR42mP8/58BDhiJ4wAA974H/U5Xe1oAAAAASUVORK5CYII="
   }
 ]
