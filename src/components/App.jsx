@@ -39,7 +39,14 @@ function updateRootSpec(spec, fieldName, newValues) {
   }
 }
 
+const beforeunloadListener = (evt) => {
+  evt.returnValue = "Changes to map style are not saved!";
+}
+
 export default class App extends React.Component {
+
+  isStyleDiff = false;
+
   constructor(props) {
     super(props)
     this.revisionStore = new RevisionStore()
@@ -147,6 +154,10 @@ export default class App extends React.Component {
   };
 
   onStyleChanged(newStyle, save=true) {
+    if(save && !this.isStyleDiff) {
+      this.isStyleDiff = true;
+      window.addEventListener("beforeunload", beforeunloadListener);
+    }
     if(newStyle.glyphs !== this.state.mapStyle.glyphs) {
       this.updateFonts(newStyle.glyphs)
     }
@@ -174,12 +185,19 @@ export default class App extends React.Component {
 
   onStyleOpen(newStyle) {
     this.revisionStore.clear();
+    window.removeEventListener("beforeunload", beforeunloadListener);
+    this.isStyleDiff = false;
+    this.onStyleChanged(newStyle, false);
   }
 
   onUndo() {
     const activeStyle = this.revisionStore.undo()
     const messages = undoMessages(this.state.mapStyle, activeStyle)
     this.saveStyle(activeStyle)
+    if(!this.isStyleDiff) {
+      this.isStyleDiff = true;
+      window.addEventListener("beforeunload", beforeunloadListener);
+    }
     this.setState({
       mapStyle: activeStyle,
       infos: messages,
@@ -190,6 +208,10 @@ export default class App extends React.Component {
     const activeStyle = this.revisionStore.redo()
     const messages = redoMessages(this.state.mapStyle, activeStyle)
     this.saveStyle(activeStyle)
+    if(!this.isStyleDiff) {
+      this.isStyleDiff = true;
+      window.addEventListener("beforeunload", beforeunloadListener);
+    }
     this.setState({
       mapStyle: activeStyle,
       infos: messages,
@@ -313,6 +335,8 @@ export default class App extends React.Component {
   }
 
   onStyleSave() {
+    console.log('onStyleSave')
+    window.removeEventListener("beforeunload", beforeunloadListener);
   }
 
   render() {
