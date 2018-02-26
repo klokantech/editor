@@ -50,7 +50,7 @@ export default class App extends React.Component {
     const styleUrl = initialStyleUrl()
     if(styleUrl) {
       this.styleStore = new StyleStore()
-      loadStyleUrl(styleUrl, mapStyle => this.onStyleChanged(mapStyle))
+      loadStyleUrl(styleUrl, mapStyle => this.onStyleOpen(mapStyle))
     } else {
       this.styleStore.init(err => {
         if(err) {
@@ -61,11 +61,11 @@ export default class App extends React.Component {
         if(styleId && this.styleStore.knowsId(styleId)) {
           this.styleStore.loadById(
             styleId,
-            mapStyle => this.onStyleChanged(mapStyle)
+            mapStyle => this.onStyleOpen(mapStyle)
           );
         } else {
           this.styleStore.latestStyle(
-            mapStyle => this.onStyleChanged(mapStyle)
+            mapStyle => this.onStyleOpen(mapStyle)
           );
         }
       })
@@ -127,11 +127,11 @@ export default class App extends React.Component {
 
   onPopState(evt) {
     const styleId = evt.state && evt.state.styleId;
-    console.log('onPopState', styleId)
+    // console.log('onPopState', styleId, this.styleStore.knowsId(styleId))
     if(styleId && this.styleStore.knowsId(styleId)) {
       this.styleStore.loadById(
         styleId,
-        mapStyle => this.onStyleChanged(mapStyle)
+        mapStyle => this.onStyleOpen(mapStyle)
       )
     } else {
       urlState.replaceState(this.state.mapStyle);
@@ -170,6 +170,9 @@ export default class App extends React.Component {
     }
 
     this.fetchSources();
+  }
+
+  onStyleOpen(newStyle) {
   }
 
   onUndo() {
@@ -321,7 +324,7 @@ export default class App extends React.Component {
       inspectModeEnabled={this.state.inspectModeEnabled}
       sources={this.state.sources}
       onStyleChanged={this.onStyleChanged.bind(this)}
-      onStyleOpen={this.onStyleChanged.bind(this)}
+      onStyleOpen={this.onStyleOpen.bind(this)}
       onStyleSave={this.onStyleSave.bind(this)}
       onInspectModeToggle={this.changeInspectMode.bind(this)}
     />
