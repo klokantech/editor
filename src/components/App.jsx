@@ -173,6 +173,7 @@ export default class App extends React.Component {
   }
 
   onStyleOpen(newStyle) {
+    this.revisionStore.clear();
   }
 
   onUndo() {

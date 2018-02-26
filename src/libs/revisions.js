@@ -32,4 +32,9 @@ export class RevisionStore {
     }
     return this.current
   }
+
+  clear() {
+    this.revisions = []
+    this.currentIdx = this.revisions.length - 1
+  }
 }
