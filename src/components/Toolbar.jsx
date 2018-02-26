@@ -78,6 +78,7 @@ export default class Toolbar extends React.Component {
     onStyleOpen: PropTypes.func.isRequired,
     // A dict of source id's and the available source layers
     sources: PropTypes.object.isRequired,
+    onStyleSave: PropTypes.func.isRequired,
     onInspectModeToggle: PropTypes.func.isRequired,
     children: PropTypes.node
   }
@@ -107,7 +108,6 @@ export default class Toolbar extends React.Component {
     return <div className='maputnik-toolbar'>
       <ExportModal
         mapStyle={this.props.mapStyle}
-        onStyleChanged={this.props.onStyleChanged}
         isOpen={this.state.isOpen.export}
         onOpenToggle={this.toggleModal.bind(this, 'export')}
       />
@@ -134,6 +134,10 @@ export default class Toolbar extends React.Component {
           <ToolbarAction onClick={this.toggleModal.bind(this, 'open')}>
             <OpenIcon />
             <IconText>Open</IconText>
+          </ToolbarAction>
+          <ToolbarAction onClick={this.props.onStyleSave}>
+            <MdSave />
+            <IconText>Save</IconText>
           </ToolbarAction>
           <ToolbarAction onClick={this.toggleModal.bind(this, 'export')}>
             <MdFileDownload />

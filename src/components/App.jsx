@@ -308,6 +308,9 @@ export default class App extends React.Component {
     this.setState({ selectedLayerIndex: idx })
   }
 
+  onStyleSave() {
+  }
+
   render() {
     const layers = this.state.mapStyle.layers || []
     const selectedLayer = layers.length > 0 ? layers[this.state.selectedLayerIndex] : null
@@ -319,6 +322,7 @@ export default class App extends React.Component {
       sources={this.state.sources}
       onStyleChanged={this.onStyleChanged.bind(this)}
       onStyleOpen={this.onStyleChanged.bind(this)}
+      onStyleSave={this.onStyleSave.bind(this)}
       onInspectModeToggle={this.changeInspectMode.bind(this)}
     />
 
