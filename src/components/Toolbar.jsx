@@ -18,7 +18,6 @@ import InspectionIcon from 'react-icons/lib/md/find-in-page'
 
 import logoImage from 'maputnik-design/logos/logo-color.svg'
 import SourcesModal from './modals/SourcesModal'
-import { initialStyle } from '../libs/urlopen'
 
 import style from '../libs/style'
 

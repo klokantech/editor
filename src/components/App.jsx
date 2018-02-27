@@ -12,7 +12,7 @@ import MessagePanel from './MessagePanel'
 import { downloadGlyphsMetadata, downloadSpriteMetadata } from '../libs/metadata'
 import styleSpec from '@mapbox/mapbox-gl-style-spec/style-spec'
 import style from '../libs/style.js'
-import { initialStyle, initialStyleUrl, loadStyleUrl } from '../libs/urlopen'
+import { initialStyleId, initialStyleUrl, loadStyleUrl } from '../libs/urlopen'
 import { undoMessages, redoMessages } from '../libs/diffmessage'
 import { loadDefaultStyle, StyleStore } from '../libs/stylestore'
 import { ApiStyleStore } from '../libs/apistore'
@@ -64,7 +64,7 @@ export default class App extends React.Component {
           console.log('Falling back to local storage for storing styles')
           this.styleStore = new StyleStore()
         }
-        const styleId = initialStyle()
+        const styleId = initialStyleId()
         if(styleId && this.styleStore.knowsId(styleId)) {
           this.styleStore.loadById(
             styleId,

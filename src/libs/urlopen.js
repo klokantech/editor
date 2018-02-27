@@ -2,14 +2,19 @@ import request from 'request'
 import url from 'url'
 import style from './style.js'
 
-export function initialStyle() {
+const initialStyle = function() {
   const initialUrl = url.parse(window.location.href, true)
   return (initialUrl.query || {}).style
 }
 
+export function initialStyleId() {
+  const urlStyle = initialStyle();
+  return style.isStyleId(urlStyle) ? urlStyle : undefined;
+}
+
 export function initialStyleUrl() {
-  const style = initialStyle();
-  return style && style.indexOf('/')>=0 ? style : undefined;
+  const urlStyle = initialStyle();
+  return style.isStyleId(urlStyle) ? undefined : urlStyle;
 }
 
 export function loadStyleUrl(styleUrl, cb) {

@@ -76,10 +76,16 @@ function replaceAccessToken(mapStyle) {
   return changedStyle
 }
 
+function isStyleId(maybeId) {
+  return typeof maybeId === "string"
+      && maybeId.match(/^([\w-]+\/)?[\w-]+$/);
+}
+
 export default {
   ensureStyleValidity,
   emptyStyle,
   indexOfLayer,
   generateId,
   replaceAccessToken,
+  isStyleId,
 }
