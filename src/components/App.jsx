@@ -335,7 +335,7 @@ export default class App extends React.Component {
   }
 
   onStyleSave() {
-    console.log('onStyleSave')
+    console.log('TODO: Save to tilehosting admin')
     window.removeEventListener("beforeunload", beforeunloadListener);
   }
 
@@ -349,7 +349,8 @@ export default class App extends React.Component {
       inspectModeEnabled={this.state.inspectModeEnabled}
       sources={this.state.sources}
       onStyleChanged={this.onStyleChanged.bind(this)}
-      onStyleOpen={this.onStyleOpen.bind(this)}
+      onStyleOpen={() => {console.log('TODO: Link to tilehosting admin')}}
+      onStyleExport={() => {console.log('TODO: Link to tilehosting admin')}}
       onStyleSave={this.onStyleSave.bind(this)}
       onInspectModeToggle={this.changeInspectMode.bind(this)}
     />

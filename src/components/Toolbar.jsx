@@ -17,9 +17,7 @@ import HelpIcon from 'react-icons/lib/md/help-outline'
 import InspectionIcon from 'react-icons/lib/md/find-in-page'
 
 import logoImage from 'maputnik-design/logos/logo-color.svg'
-import ExportModal from './modals/ExportModal'
 import SourcesModal from './modals/SourcesModal'
-import OpenModal from './modals/OpenModal'
 import { initialStyle } from '../libs/urlopen'
 
 import style from '../libs/style'
@@ -76,6 +74,7 @@ export default class Toolbar extends React.Component {
     onStyleChanged: PropTypes.func.isRequired,
     // A new style has been uploaded
     onStyleOpen: PropTypes.func.isRequired,
+    onStyleExport: PropTypes.func.isRequired,
     // A dict of source id's and the available source layers
     sources: PropTypes.object.isRequired,
     onStyleSave: PropTypes.func.isRequired,
@@ -88,9 +87,7 @@ export default class Toolbar extends React.Component {
     this.state = {
       isOpen: {
         sources: false,
-        open: !initialStyle(),
         add: false,
-        export: false,
       }
     }
   }
@@ -106,16 +103,6 @@ export default class Toolbar extends React.Component {
 
   render() {
     return <div className='maputnik-toolbar'>
-      <ExportModal
-        mapStyle={this.props.mapStyle}
-        isOpen={this.state.isOpen.export}
-        onOpenToggle={this.toggleModal.bind(this, 'export')}
-      />
-      <OpenModal
-        isOpen={this.state.isOpen.open}
-        onStyleOpen={this.props.onStyleOpen}
-        onOpenToggle={this.toggleModal.bind(this, 'open')}
-      />
       <SourcesModal
           mapStyle={this.props.mapStyle}
           onStyleChanged={this.props.onStyleChanged}
@@ -131,7 +118,7 @@ export default class Toolbar extends React.Component {
           <h1>Maputnik</h1>
         </ToolbarLink>
         <div className="maputnik-toolbar__actions">
-          <ToolbarAction onClick={this.toggleModal.bind(this, 'open')}>
+          <ToolbarAction onClick={this.props.onStyleOpen}>
             <OpenIcon />
             <IconText>Open</IconText>
           </ToolbarAction>
@@ -139,7 +126,7 @@ export default class Toolbar extends React.Component {
             <MdSave />
             <IconText>Save</IconText>
           </ToolbarAction>
-          <ToolbarAction onClick={this.toggleModal.bind(this, 'export')}>
+          <ToolbarAction onClick={this.props.onStyleOpen}>
             <MdFileDownload />
             <IconText>Export</IconText>
           </ToolbarAction>
