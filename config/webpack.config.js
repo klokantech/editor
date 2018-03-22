@@ -47,6 +47,15 @@ module.exports = {
     historyApiFallback: true,
     port: PORT,
     host: HOST,
+    proxy: {
+      "/tilehosting": {
+        target: "http://localhost:8000",
+        pathRewrite: {"^/tilehosting" : ""}
+      },
+      "/maps": "http://localhost:8000",
+      "/static": "http://localhost:8000",
+      "/_debug_toolbar": "http://localhost:8000"
+    },
     watchOptions: {
       // Disabled polling by default as it causes lots of CPU usage and hence drains laptop batteries. To enable polling add WEBPACK_DEV_SERVER_POLLING to your environment
       // See <https://webpack.js.org/configuration/watch/#watchoptions-poll> for details

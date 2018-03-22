@@ -18,7 +18,6 @@ export function initialStyleUrl() {
 }
 
 export function loadStyleUrl(styleUrl, cb) {
-  console.log('Loading style', styleUrl)
   request({
     url: styleUrl,
     withCredentials: false,
@@ -26,7 +25,7 @@ export function loadStyleUrl(styleUrl, cb) {
       if (!error && response.statusCode == 200) {
         cb(style.ensureStyleValidity(JSON.parse(body)))
       } else {
-        console.warn('Could not fetch default style', styleUrl)
+        console.warn('Could not fetch style', styleUrl)
         cb(style.emptyStyle)
       }
   })

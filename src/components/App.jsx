@@ -14,13 +14,13 @@ import styleSpec from '@mapbox/mapbox-gl-style-spec/style-spec'
 import style from '../libs/style.js'
 import { initialStyleId, initialStyleUrl, loadStyleUrl } from '../libs/urlopen'
 import { undoMessages, redoMessages } from '../libs/diffmessage'
-import { loadDefaultStyle, StyleStore } from '../libs/stylestore'
-import { ApiStyleStore } from '../libs/apistore'
+import { ServerStore } from '../libs/serverstore'
 import { RevisionStore } from '../libs/revisions'
 import LayerWatcher from '../libs/layerwatcher'
 import tokens from '../config/tokens.json'
 import isEqual from 'lodash.isequal'
 import * as urlState from '../libs/urlstate.js'
+import tilehosting from './../config/tilehosting.json';
 
 import MapboxGl from 'mapbox-gl'
 import mapboxUtil from 'mapbox-gl/src/util/mapbox'
@@ -46,37 +46,25 @@ const beforeunloadListener = (evt) => {
 export default class App extends React.Component {
 
   isStyleDiff = false;
+  infoTimeout = null;
 
   constructor(props) {
     super(props)
     this.revisionStore = new RevisionStore()
-    this.styleStore = new ApiStyleStore({
-      onLocalStyleChange: mapStyle => this.onStyleChanged(mapStyle, false)
-    })
+    this.styleStore = new ServerStore()
 
-    const styleUrl = initialStyleUrl()
-    if(styleUrl) {
-      this.styleStore = new StyleStore()
-      loadStyleUrl(styleUrl, mapStyle => this.onStyleOpen(mapStyle))
-    } else {
-      this.styleStore.init(err => {
-        if(err) {
-          console.log('Falling back to local storage for storing styles')
-          this.styleStore = new StyleStore()
-        }
+    this.styleStore.init(err => {
+      if(err) {
+        console.log('Can not connect to server config');
+      } else {
         const styleId = initialStyleId()
-        if(styleId && this.styleStore.knowsId(styleId)) {
-          this.styleStore.loadById(
-            styleId,
-            mapStyle => this.onStyleOpen(mapStyle)
-          );
+        if(styleId) {
+          this.styleStore.loadById(styleId, mapStyle => this.onStyleOpen(mapStyle));
         } else {
-          this.styleStore.latestStyle(
-            mapStyle => this.onStyleOpen(mapStyle)
-          );
+          this.styleStore.loadLatestStyle(mapStyle => this.onStyleOpen(mapStyle));
         }
-      })
-    }
+      }
+    });
 
     window.addEventListener('popstate', this.onPopState.bind(this));
 
@@ -111,7 +99,7 @@ export default class App extends React.Component {
 
   onReset() {
     this.styleStore.purge()
-    loadDefaultStyle(mapStyle => this.onStyleOpen(mapStyle))
+    this.styleStore.loadLatestStyle(mapStyle => this.onStyleOpen(mapStyle))
   }
 
   saveStyle(snapshotStyle) {
@@ -153,8 +141,8 @@ export default class App extends React.Component {
     urlState.replaceState(this.state.mapStyle);
   };
 
-  onStyleChanged(newStyle, save=true) {
-    if(save && !this.isStyleDiff) {
+  onStyleChanged(newStyle, open=false) {
+    if(!open && !this.isStyleDiff) {
       this.isStyleDiff = true;
       window.addEventListener("beforeunload", beforeunloadListener);
     }
@@ -168,7 +156,6 @@ export default class App extends React.Component {
     const errors = styleSpec.validate(newStyle, styleSpec.latest)
     if(errors.length === 0) {
       this.revisionStore.addRevision(newStyle)
-      if(save) this.saveStyle(newStyle)
       urlState.onStyleChange(this.state.mapStyle, newStyle);
       this.setState({
         mapStyle: newStyle,
@@ -187,13 +174,13 @@ export default class App extends React.Component {
     this.revisionStore.clear();
     window.removeEventListener("beforeunload", beforeunloadListener);
     this.isStyleDiff = false;
-    this.onStyleChanged(newStyle, false);
+    this.onStyleChanged(newStyle, true);
   }
 
   onUndo() {
     const activeStyle = this.revisionStore.undo()
     const messages = undoMessages(this.state.mapStyle, activeStyle)
-    this.saveStyle(activeStyle)
+    //this.saveStyle(activeStyle)
     if(!this.isStyleDiff) {
       this.isStyleDiff = true;
       window.addEventListener("beforeunload", beforeunloadListener);
@@ -207,7 +194,7 @@ export default class App extends React.Component {
   onRedo() {
     const activeStyle = this.revisionStore.redo()
     const messages = redoMessages(this.state.mapStyle, activeStyle)
-    this.saveStyle(activeStyle)
+    //this.saveStyle(activeStyle)
     if(!this.isStyleDiff) {
       this.isStyleDiff = true;
       window.addEventListener("beforeunload", beforeunloadListener);
@@ -223,7 +210,7 @@ export default class App extends React.Component {
       ...this.state.mapStyle,
       layers: changedLayers
     }
-    this.onStyleChanged(changedStyle)
+    this.onStyleChanged(changedStyle);
   }
 
   onLayerIdChange(oldId, newId) {
@@ -335,8 +322,24 @@ export default class App extends React.Component {
   }
 
   onStyleSave() {
-    console.log('TODO: Save to tilehosting admin')
-    window.removeEventListener("beforeunload", beforeunloadListener);
+    this.styleStore.save(this.state.mapStyle, (error) => {
+      let errors = [];
+      let infos = [];
+      if(error) {
+        errors = [error.message];
+      } else {
+        infos = ['Style '+ this.state.mapStyle.name+' sucessfully saved.'];
+      }
+      this.setState({infos, errors});
+      if(this.infoTimeout) {
+        clearTimeout(this.infoTimeout);
+      }
+      this.infoTimeout = setTimeout(() => {
+        this.setState({infos: []});
+        this.infoTimeout = null;
+      }, 3000);
+      window.removeEventListener("beforeunload", beforeunloadListener);
+    });
   }
 
   render() {
@@ -349,8 +352,11 @@ export default class App extends React.Component {
       inspectModeEnabled={this.state.inspectModeEnabled}
       sources={this.state.sources}
       onStyleChanged={this.onStyleChanged.bind(this)}
-      onStyleOpen={() => {console.log('TODO: Link to tilehosting admin')}}
-      onStyleExport={() => {console.log('TODO: Link to tilehosting admin')}}
+      onStyleOpen={() => {window.location = tilehosting.url+'/maps/';}}
+      onStyleExport={() => {
+        window.location =
+          tilehosting.url+'/maps/' + this.state.mapStyle.id + '/';
+      }}
       onStyleSave={this.onStyleSave.bind(this)}
       onInspectModeToggle={this.changeInspectMode.bind(this)}
     />

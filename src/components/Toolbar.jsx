@@ -125,7 +125,7 @@ export default class Toolbar extends React.Component {
             <MdSave />
             <IconText>Save</IconText>
           </ToolbarAction>
-          <ToolbarAction onClick={this.props.onStyleOpen}>
+          <ToolbarAction onClick={this.props.onStyleExport}>
             <MdFileDownload />
             <IconText>Export</IconText>
           </ToolbarAction>
