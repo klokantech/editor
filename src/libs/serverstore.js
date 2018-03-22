@@ -1,6 +1,7 @@
 import request from 'request'
 
 import tilehosting from './../config/tilehosting.json';
+import sources from './../config/tilesets.json';
 const configUrl = tilehosting.url + '/maps/style-editor/config.json';
 import { loadStyleUrl } from './urlopen'
 
@@ -8,7 +9,6 @@ import { loadStyleUrl } from './urlopen'
 export class ServerStore {
   constructor(opts) {
     this.mapStyles = [];
-    this.datasets = [];
     this.latestStyle = null;
   }
 
@@ -18,7 +18,20 @@ export class ServerStore {
         const config = JSON.parse(body);
         this.mapStyles = config.maps;
         this.latestStyle = this.mapStyles[0];
-        this.datasets = config.datasets;
+
+        let key;
+        for (key in sources){
+          if (sources.hasOwnProperty(key)) {
+            delete sources[key];
+          }
+        }
+        config.datasets.forEach(dataset => {
+          sources[dataset.dataset_uid] = {
+            type: dataset.type,
+            url: dataset.url,
+            title: dataset.title
+          }
+        });
         cb(null);
       } else {
         cb(new Error('Can not connect to style API'));
