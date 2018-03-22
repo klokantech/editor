@@ -110,7 +110,7 @@ export default class Toolbar extends React.Component {
       />
       <div className="maputnik-toolbar__inner">
         <ToolbarLink
-          href={"https://github.com/maputnik/editor"}
+          href={this.props.url}
           className="maputnik-toolbar-logo"
         >
           <img src={logoImage} alt="Maputnik" />

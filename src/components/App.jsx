@@ -359,6 +359,7 @@ export default class App extends React.Component {
       }}
       onStyleSave={this.onStyleSave.bind(this)}
       onInspectModeToggle={this.changeInspectMode.bind(this)}
+      url={tilehosting.url+'/maps/style-editor/'}
     />
 
     const layerList = <LayerList
