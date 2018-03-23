@@ -11,7 +11,7 @@ export class ServerStore {
   }
 
   init(cb) {
-    const configUrl = process.env.TILEHOSTING_URL + '/maps/style-editor/config.json';
+    const configUrl = process.env.TILEHOSTING_URL + '/api/maps/style-editor/config.json';
     request(configUrl, (error, response, body) => {
       if (!error && body && response.statusCode === 200) {
         const config = JSON.parse(body);
