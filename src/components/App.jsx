@@ -20,7 +20,6 @@ import LayerWatcher from '../libs/layerwatcher'
 import tokens from '../config/tokens.json'
 import isEqual from 'lodash.isequal'
 import * as urlState from '../libs/urlstate.js'
-import tilehosting from './../config/tilehosting.json';
 
 import MapboxGl from 'mapbox-gl'
 import mapboxUtil from 'mapbox-gl/src/util/mapbox'
@@ -352,14 +351,14 @@ export default class App extends React.Component {
       inspectModeEnabled={this.state.inspectModeEnabled}
       sources={this.state.sources}
       onStyleChanged={this.onStyleChanged.bind(this)}
-      onStyleOpen={() => {window.location = tilehosting.url+'/maps/';}}
+      onStyleOpen={() => {window.location = process.env.TILEHOSTING_URL+'/maps/';}}
       onStyleExport={() => {
         window.location =
-          tilehosting.url+'/maps/' + this.state.mapStyle.id + '/';
+          process.env.TILEHOSTING_URL+'/maps/' + this.state.mapStyle.id + '/';
       }}
       onStyleSave={this.onStyleSave.bind(this)}
       onInspectModeToggle={this.changeInspectMode.bind(this)}
-      url={tilehosting.url+'/maps/style-editor/'}
+      url={process.env.TILEHOSTING_URL+'/maps/style-editor/'}
     />
 
     const layerList = <LayerList

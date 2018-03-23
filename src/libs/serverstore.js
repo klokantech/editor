@@ -1,8 +1,6 @@
 import request from 'request'
 
-import tilehosting from './../config/tilehosting.json';
 import sources from './../config/tilesets.json';
-const configUrl = tilehosting.url + '/maps/style-editor/config.json';
 import { loadStyleUrl } from './urlopen'
 
 
@@ -13,6 +11,7 @@ export class ServerStore {
   }
 
   init(cb) {
+    const configUrl = process.env.TILEHOSTING_URL + '/maps/style-editor/config.json';
     request(configUrl, (error, response, body) => {
       if (!error && body && response.statusCode === 200) {
         const config = JSON.parse(body);

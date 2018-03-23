@@ -63,10 +63,9 @@ module.exports = {
     new webpack.NoEmitOnErrorsPlugin(),
     new webpack.optimize.CommonsChunkPlugin({ name: 'vendor', filename: '[chunkhash].vendor.js' }),
     new WebpackCleanupPlugin(),
-    new webpack.DefinePlugin({
-      'process.env': {
-        NODE_ENV: '"production"'
-      }
+    new webpack.EnvironmentPlugin({
+      NODE_ENV: 'production',
+      TILEHOSTING_URL: null
     }),
     new webpack.optimize.UglifyJsPlugin({
       compress: {
