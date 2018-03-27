@@ -242,7 +242,7 @@ export default class App extends React.Component {
     const sourceList = {...this.state.sources};
 
     for(let [key, val] of Object.entries(this.state.mapStyle.sources)) {
-      if(sourceList.hasOwnProperty(key)) {
+      if(sourceList.hasOwnProperty(key) || !val.url) {
         continue;
       }
 
