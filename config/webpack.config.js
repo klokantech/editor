@@ -52,7 +52,7 @@ module.exports = {
         target: "http://localhost:8000",
         pathRewrite: {"^/tilehosting" : ""}
       },
-      "/maps": "http://localhost:8000",
+      "/api": "http://localhost:8000",
       "/static": "http://localhost:8000",
       "/_debug_toolbar": "http://localhost:8000"
     },
@@ -66,6 +66,9 @@ module.exports = {
   plugins: [
     new webpack.NoEmitOnErrorsPlugin(),
     new webpack.HotModuleReplacementPlugin(),
+    new webpack.EnvironmentPlugin({
+      TILEHOSTING_URL: "http://localhost:8888/tilehosting"
+    }),
     new HtmlWebpackPlugin({
       title: 'Maputnik',
       template: './src/template.html'
