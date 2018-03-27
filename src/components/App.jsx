@@ -52,11 +52,11 @@ export default class App extends React.Component {
     this.revisionStore = new RevisionStore()
     this.styleStore = new ServerStore()
 
+    const styleId = initialStyleId()
     this.styleStore.init(err => {
       if(err) {
         console.log('Can not connect to server config');
       } else {
-        const styleId = initialStyleId()
         if(styleId) {
           this.styleStore.loadById(styleId, mapStyle => this.onStyleOpen(mapStyle));
         } else {
