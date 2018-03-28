@@ -15,10 +15,12 @@ $font-size-3: 18px;
 $font-size-4: 16px;
 $font-size-5: 14px;
 $font-size-6: 12px;
-$font-family: Roboto, sans-serif;
+$font-family: 'Open Sans', sans-serif;;
 
-$toolbar-height: 40px;
+$toolbar-height: 48px;
 $toolbar-offset: 0;
+
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:400,400i,600,700&subset=latin-ext');
 
 @import 'mixins';
 @import 'reset';

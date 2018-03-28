@@ -21,8 +21,10 @@
   }
 
   img {
-    width: 30px;
-    padding-right: $margin-2;
+    height: 35px;
+    width: auto;
+    padding-left: $margin-3;
+    padding-right: $margin-3;
     vertical-align: top;
   }
 }
@@ -31,7 +33,7 @@
   vertical-align: top;
   height: $toolbar-height;
   display: inline-block;
-  padding: $margin-3;
+  padding: $margin-2;
   font-size: $font-size-5;
   cursor: pointer;
   color: $color-white;
@@ -44,6 +46,9 @@
 
 .maputnik-toolbar-action {
   @extend .maputnik-toolbar-link;
+  padding: $margin-3;
+  vertical-align: middle;
+  line-height: 24px;
 }
 
 .maputnik-icon-text {
@@ -67,4 +72,5 @@
   white-space: nowrap;
   flex: 1;
   overflow-y: auto;
+  text-align: right;
 }

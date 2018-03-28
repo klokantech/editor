@@ -16,7 +16,7 @@ import MdFontDownload from 'react-icons/lib/md/font-download'
 import HelpIcon from 'react-icons/lib/md/help-outline'
 import InspectionIcon from 'react-icons/lib/md/find-in-page'
 
-import logoImage from 'maputnik-design/logos/logo-color.svg'
+import logoImage from '../img/logo-white.png'
 import SourcesModal from './modals/SourcesModal'
 
 import style from '../libs/style'
@@ -114,7 +114,6 @@ export default class Toolbar extends React.Component {
           className="maputnik-toolbar-logo"
         >
           <img src={logoImage} alt="Maputnik" />
-          <h1>Maputnik</h1>
         </ToolbarLink>
         <div className="maputnik-toolbar__actions">
           <ToolbarAction onClick={this.props.onStyleOpen}>
@@ -140,10 +139,6 @@ export default class Toolbar extends React.Component {
               { !this.props.inspectModeEnabled && <span>Inspect Mode</span> }
             </IconText>
           </ToolbarAction>
-          <ToolbarLink href={"https://github.com/maputnik/editor/wiki"}>
-            <HelpIcon />
-            <IconText>Help</IconText>
-          </ToolbarLink>
         </div>
       </div>
     </div>
