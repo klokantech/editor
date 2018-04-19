@@ -79,7 +79,13 @@ export class ServerStore {
         json: true,
         body: mapStyle
       }, (error, response, body) => {
-        cb(error);
+        if(error) {
+          cb(error);
+        } else if(response.statusCode !== 200) {
+          cb(new Error('Server reponded with HTTP '+response.statusCode+'!'));
+        } else {
+          cb();
+        }
       });
     }
   }

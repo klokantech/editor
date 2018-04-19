@@ -330,13 +330,15 @@ export default class App extends React.Component {
         infos = ['Style '+ this.state.mapStyle.name+' sucessfully saved.'];
       }
       this.setState({infos, errors});
-      if(this.infoTimeout) {
-        clearTimeout(this.infoTimeout);
+      if(!error) {
+        if (this.infoTimeout) {
+          clearTimeout(this.infoTimeout);
+        }
+        this.infoTimeout = setTimeout(() => {
+          this.setState({infos: []});
+          this.infoTimeout = null;
+        }, 3000);
       }
-      this.infoTimeout = setTimeout(() => {
-        this.setState({infos: []});
-        this.infoTimeout = null;
-      }, 3000);
       window.removeEventListener("beforeunload", beforeunloadListener);
     });
   }
