@@ -150,17 +150,17 @@
   }
 
   .maputnik-multibutton .maputnik-button {
-    background-color: darken($color-midgray, 10%);
-    color: darken($color-lowgray, 25%);
+    background-color: $btn-secondary-bg;
+    color: $btn-secondary-color;
 
     &:hover {
-      background-color: lighten($color-midgray, 12);
-      color: $color-white;
+      background-color: $btn-secondary-bg;
+      color: $btn-secondary-color;
     }
   }
 
   .maputnik-multibutton .maputnik-button-selected {
-    background-color: darken($color-midgray, 2%);
-    color: $color-lowgray;
+    background-color: $btn-secondary-bg;
+    color: $btn-secondary-color;
   }
 }

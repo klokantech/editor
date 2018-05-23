@@ -7,13 +7,14 @@
   left: 0;
   top: $toolbar-offset;
   background-color: $color-black;
+  padding: 0 20px 0 5px;
 }
 
 .maputnik-toolbar-logo {
-  width: 180px;
+  width: 250px;
   text-align: left;
   background-color: $color-black;
-  padding: $margin-2;
+  padding: $margin-1;
   height: $toolbar-height;
 
   h1 {
@@ -21,7 +22,7 @@
   }
 
   img {
-    height: 35px;
+    height: 38px;
     width: auto;
     padding-left: $margin-3;
     padding-right: $margin-3;
@@ -31,17 +32,14 @@
 
 .maputnik-toolbar-link {
   vertical-align: top;
-  height: $toolbar-height;
+//  height: $toolbar-height;
   display: inline-block;
-  padding: $margin-2;
-  font-size: $font-size-5;
+  padding: ($margin-2 + $margin-3) / 2;
+  font-size: 13px;
   cursor: pointer;
-  color: $color-white;
+  color: $btn-secondary-color;
   text-decoration: none;
-
-  &:hover {
-    background-color: $color-midgray;
-  }
+  font-weight: 600;
 }
 
 .maputnik-toolbar-action {
@@ -49,6 +47,12 @@
   padding: $margin-3;
   vertical-align: middle;
   line-height: 24px;
+  text-transform: uppercase;
+  padding: 7px 8px;
+  margin: 11px 6px;
+  background: $btn-secondary-bg;
+  line-height: 1;
+  border-radius: 4px;
 }
 
 .maputnik-icon-text {

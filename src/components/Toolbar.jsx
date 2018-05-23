@@ -16,7 +16,7 @@ import MdFontDownload from 'react-icons/lib/md/font-download'
 import HelpIcon from 'react-icons/lib/md/help-outline'
 import InspectionIcon from 'react-icons/lib/md/find-in-page'
 
-import logoImage from '../img/logo-white.png'
+import logoImage from '../img/logo-white.svg'
 import SourcesModal from './modals/SourcesModal'
 
 import style from '../libs/style'
@@ -110,7 +110,7 @@ export default class Toolbar extends React.Component {
       />
       <div className="maputnik-toolbar__inner">
         <ToolbarLink
-          href={this.props.url}
+          href="https://cloud.maptiler.com"
           className="maputnik-toolbar-logo"
         >
           <img src={logoImage} alt="Maputnik" />

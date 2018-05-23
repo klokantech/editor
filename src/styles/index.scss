@@ -1,8 +1,8 @@
-$color-black: #1c1f24;
-$color-gray: #26282e;
+$color-black: #343a49;
+$color-gray: #292f3e;
 $color-midgray: #36383e;
-$color-lowgray: #8e8e8e;
-$color-white: #f0f0f0;
+$color-lowgray: #a2a2a2;
+$color-white: #e8e8ea;
 $color-red: #cf4a4a;
 $margin-1: 3px;
 $margin-2: 5px;
@@ -17,8 +17,14 @@ $font-size-5: 14px;
 $font-size-6: 12px;
 $font-family: 'Open Sans', sans-serif;;
 
-$toolbar-height: 48px;
+$toolbar-height: 52px;
 $toolbar-offset: 0;
+
+$btn-bg: #4775e1;
+$btn-color: #fff;
+
+$btn-secondary-bg: #525769;
+$btn-secondary-color: $btn-color;
 
 @import url('https://fonts.googleapis.com/css?family=Open+Sans:400,400i,600,700&subset=latin-ext');
 

@@ -47,17 +47,17 @@
 // BUTTON
 .maputnik-button {
   cursor: pointer;
-  background-color: $color-midgray;
-  color: $color-lowgray;
+  background-color: $btn-bg;
+  color: $btn-color;
   font-size: $font-size-6;
-  padding: $margin-2;
+  padding: 4px 8px;
   user-select: none;
   border-radius: 2px;
   box-sizing: border-box;
 
   &:hover {
-    background-color: lighten($color-midgray, 12);
-    color: $color-white;
+    background-color: lighten($btn-bg, 10%);
+    color: $btn-color;
   }
 }
 
