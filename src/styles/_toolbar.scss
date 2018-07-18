@@ -48,11 +48,15 @@
   vertical-align: middle;
   line-height: 24px;
   text-transform: uppercase;
-  padding: 7px 8px;
+  padding: 7px 8px 6px 8px;
   margin: 11px 6px;
   background: $btn-secondary-bg;
   line-height: 1;
   border-radius: 4px;
+
+  svg {
+    margin: 0 3px 3px 0;
+  }
 }
 
 .maputnik-icon-text {

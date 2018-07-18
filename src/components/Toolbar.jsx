@@ -5,7 +5,7 @@ import classnames from 'classnames'
 
 import MdFileDownload from 'react-icons/lib/md/file-download'
 import MdFileUpload from 'react-icons/lib/md/file-upload'
-import OpenIcon from 'react-icons/lib/md/open-in-browser'
+import OpenIcon from 'react-icons/lib/md/clear'
 import MdInfo from 'react-icons/lib/md/info'
 import SourcesIcon from 'react-icons/lib/md/layers'
 import MdSave from 'react-icons/lib/md/save'
@@ -116,10 +116,6 @@ export default class Toolbar extends React.Component {
           <img src={logoImage} alt="Maputnik" />
         </ToolbarLink>
         <div className="maputnik-toolbar__actions">
-          <ToolbarAction onClick={this.props.onStyleOpen}>
-            <OpenIcon />
-            <IconText>Open</IconText>
-          </ToolbarAction>
           <ToolbarAction onClick={this.props.onStyleSave}>
             <MdSave />
             <IconText>Save</IconText>
@@ -138,6 +134,10 @@ export default class Toolbar extends React.Component {
               { this.props.inspectModeEnabled && <span>Map Mode</span> }
               { !this.props.inspectModeEnabled && <span>Inspect Mode</span> }
             </IconText>
+          </ToolbarAction>
+          <ToolbarAction onClick={this.props.onStyleOpen}>
+            <OpenIcon />
+            <IconText>Close</IconText>
           </ToolbarAction>
         </div>
       </div>
