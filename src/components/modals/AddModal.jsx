@@ -113,7 +113,7 @@ class AddModal extends React.Component {
 
   render() {
     const sources = this.getSources(this.state.type);
-    const layers = this.getLayersForSource(this.state.source);
+    const layers = this.getLayersForSource(this.state.source || sources[0]);
 
     return <Modal
       isOpen={this.props.isOpen}
