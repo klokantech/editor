@@ -159,14 +159,14 @@ export default class App extends React.Component {
       this.setState({
         mapStyle: newStyle,
         errors: [],
-      })
+      }, () => {
+        this.fetchSources();
+      });
     } else {
       this.setState({
         errors: errors.map(err => err.message)
       })
     }
-
-    this.fetchSources();
   }
 
   onStyleOpen(newStyle) {
