@@ -115,6 +115,8 @@ class AddModal extends React.Component {
     const sources = this.getSources(this.state.type);
     const layers = this.getLayersForSource(this.state.source || sources[0]);
 
+    this.state.source = this.state.source || sources[0];
+
     return <Modal
       isOpen={this.props.isOpen}
       onOpenToggle={this.props.onOpenToggle}
