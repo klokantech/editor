@@ -26,7 +26,7 @@ function buildInspectStyle(originalMapStyle, coloredLayers, highlightedLayer) {
     "id": "background",
     "type": "background",
     "paint": {
-      "background-color": '#1c1f24',
+      "background-color": '#ffffff',
     }
   }
 
