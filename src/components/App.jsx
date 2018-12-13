@@ -310,9 +310,21 @@ export default class App extends React.Component {
         inspectModeEnabled={this.state.inspectModeEnabled}
         highlightedLayer={this.state.mapStyle.layers[this.state.selectedLayerIndex]}
         onMapLoad={this.replaceUrlState.bind(this)}
-        onMoveEnd={this.replaceUrlState.bind(this)}
+        onMoveEnd={this.replaceUrlState.bind(this) && this.updateStylePosition.bind(this)}
         onLayerSelect={this.onLayerSelect.bind(this)} />
     }
+  }
+
+  updateStylePosition(e) {
+    var map = e.target;
+    const changedStyle = {
+      ...this.state.mapStyle,
+      center: [map.getCenter().lng, map.getCenter().lat],
+      zoom: map.getZoom(),
+      bearing: map.getBearing(),
+      pitch: map.getPitch()
+    }
+    this.onStyleChanged(changedStyle);
   }
 
   onLayerSelect(layerId) {
