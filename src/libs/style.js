@@ -78,7 +78,7 @@ function replaceAccessToken(mapStyle) {
 
 function isStyleId(maybeId) {
   return typeof maybeId === "string"
-      && maybeId.match(/^\+?([\w-]+\/)?[\w-]+$/);
+      && maybeId.match(/^\+?([\w-\.]+\/)?[\w-\.]+$/);
 }
 
 export default {
