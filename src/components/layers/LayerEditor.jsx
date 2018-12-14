@@ -120,6 +120,13 @@ export default class LayerEditor extends React.Component {
     let sourceLayerIds;
     if(this.props.sources.hasOwnProperty(this.props.layer.source)) {
       sourceLayerIds = this.props.sources[this.props.layer.source].layers;
+      if (
+        this.props.layer['source-layer'] &&
+        sourceLayerIds.indexOf(this.props.layer['source-layer']) < 0
+      ) {
+        this.props.layer['source-layer'] = undefined;
+      }
+      this.props.layer['source-layer'] = this.props.layer['source-layer'] || sourceLayerIds[0];
     }
 
     switch(type) {
